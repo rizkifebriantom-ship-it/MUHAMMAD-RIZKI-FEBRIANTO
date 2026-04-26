@@ -49,7 +49,13 @@ const tools = [
   },
 ];
 
-export default function ToolsGrid() {
+export default function ToolsGrid({ onSelectTool, searchTerm }: { onSelectTool: (title: string) => void; searchTerm: string }) {
+  const filteredTools = tools.filter((tool) => 
+    tool.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    tool.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    tool.tag.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <section id="tools" className="py-24 bg-slate-50/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -64,32 +70,45 @@ export default function ToolsGrid() {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {tools.map((tool, index) => (
-            <motion.div
-              key={tool.title}
-              whileHover={{ y: -8 }}
-              className="group bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:border-blue-100 transition-all cursor-pointer"
+        {filteredTools.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredTools.map((tool, index) => (
+              <motion.div
+                key={tool.title}
+                whileHover={{ y: -8 }}
+                onClick={() => onSelectTool(tool.title)}
+                className="group bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:border-blue-100 transition-all cursor-pointer"
+              >
+                <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-50 transition-colors">
+                  {tool.icon}
+                </div>
+                <div className="inline-flex px-3 py-1 rounded-full bg-slate-100 text-slate-500 text-xs font-bold uppercase tracking-wider mb-4 group-hover:bg-blue-100 group-hover:text-blue-600 transition-colors">
+                  {tool.tag}
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors">
+                  {tool.title}
+                </h3>
+                <p className="text-slate-600 leading-relaxed mb-6">
+                  {tool.description}
+                </p>
+                <div className="flex items-center gap-2 text-sm font-bold text-blue-600 opacity-0 group-hover:opacity-100 transition-all">
+                  Gunakan Tool
+                  <ArrowUpRight className="w-4 h-4 ml-1" />
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        ) : (
+          <div className="py-20 text-center">
+            <div className="text-slate-400 mb-4 flex justify-center italic">Tool tidak ditemukan...</div>
+            <button 
+              onClick={() => onSelectTool('Invoice Generator')} 
+              className="text-blue-600 font-bold hover:underline"
             >
-              <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-50 transition-colors">
-                {tool.icon}
-              </div>
-              <div className="inline-flex px-3 py-1 rounded-full bg-slate-100 text-slate-500 text-xs font-bold uppercase tracking-wider mb-4 group-hover:bg-blue-100 group-hover:text-blue-600 transition-colors">
-                {tool.tag}
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors">
-                {tool.title}
-              </h3>
-              <p className="text-slate-600 leading-relaxed mb-6">
-                {tool.description}
-              </p>
-              <div className="flex items-center gap-2 text-sm font-bold text-blue-600 opacity-0 group-hover:opacity-100 transition-all">
-                Gunakan Tool
-                <ArrowUpRight className="w-4 h-4 ml-1" />
-              </div>
-            </motion.div>
-          ))}
-        </div>
+              Kesulitan? Coba Invoice Generator →
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

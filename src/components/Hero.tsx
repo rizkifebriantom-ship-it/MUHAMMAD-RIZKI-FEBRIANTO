@@ -1,8 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, Heart } from 'lucide-react';
+import DonationModal from './DonationModal';
 
 export default function Hero() {
+  const [isDonationOpen, setIsDonationOpen] = React.useState(false);
+
   return (
     <section className="relative pt-32 pb-20 overflow-hidden">
       {/* Background Orbs */}
@@ -32,16 +35,21 @@ export default function Hero() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button className="w-full sm:w-auto px-8 py-4 bg-blue-600 text-white rounded-2xl font-bold text-lg hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all hover:-translate-y-1">
+            <a href="#tools" className="w-full sm:w-auto px-8 py-4 bg-blue-600 text-white rounded-2xl font-bold text-lg hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all hover:-translate-y-1 flex items-center justify-center">
               Gunakan Sekarang
-            </button>
-            <button className="w-full sm:w-auto px-8 py-4 bg-white text-slate-700 border border-slate-200 rounded-2xl font-bold text-lg hover:bg-slate-50 transition-all flex items-center justify-center gap-2">
+            </a>
+            <button 
+              onClick={() => setIsDonationOpen(true)}
+              className="w-full sm:w-auto px-8 py-4 bg-white text-slate-700 border border-slate-200 rounded-2xl font-bold text-lg hover:bg-slate-50 transition-all flex items-center justify-center gap-2"
+            >
               <Heart className="w-5 h-5 text-pink-500 fill-pink-500" />
               Donasi
             </button>
           </div>
         </motion.div>
       </div>
+
+      <DonationModal isOpen={isDonationOpen} onClose={() => setIsDonationOpen(false)} />
     </section>
   );
 }

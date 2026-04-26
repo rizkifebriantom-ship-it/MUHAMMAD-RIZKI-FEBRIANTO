@@ -21,7 +21,12 @@ const faqs = [
   },
 ];
 
-function FAQItem({ question, answer }: { question: string; answer: string }) {
+interface FAQProps {
+  question: string;
+  answer: string;
+}
+
+function FAQItem({ question, answer }: FAQProps) {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
@@ -69,7 +74,9 @@ export default function FAQ() {
 
         <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
           {faqs.map((faq, index) => (
-            <FAQItem key={index} {...faq} />
+            <div key={index}>
+              <FAQItem question={faq.question} answer={faq.answer} />
+            </div>
           ))}
         </div>
       </div>

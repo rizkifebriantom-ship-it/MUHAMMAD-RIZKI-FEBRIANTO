@@ -1,7 +1,10 @@
 import React from 'react';
 import { Mail, Instagram, Twitter, MessageSquare, Heart } from 'lucide-react';
+import DonationModal from './DonationModal';
 
 export default function Footer() {
+  const [isDonationOpen, setIsDonationOpen] = React.useState(false);
+
   return (
     <footer className="bg-slate-900 pt-20 pb-10 text-slate-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -62,12 +65,17 @@ export default function Footer() {
             <p className="text-xs text-slate-400 mb-4 leading-relaxed">
               Bantu kami menjaga SerbaTools tetap gratis dengan memberikan donasi kecil.
             </p>
-            <button className="w-full py-4 bg-white text-slate-900 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-blue-50 transition-all">
+            <button 
+              onClick={() => setIsDonationOpen(true)}
+              className="w-full py-4 bg-white text-slate-900 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-blue-50 transition-all"
+            >
               <Heart className="w-4 h-4 text-pink-500 fill-pink-500" />
               Kirim Donasi
             </button>
           </div>
         </div>
+
+        <DonationModal isOpen={isDonationOpen} onClose={() => setIsDonationOpen(false)} />
 
         <div className="pt-8 border-t border-slate-800 text-center">
           <p className="text-xs text-slate-500">
